@@ -1,13 +1,27 @@
-import React from "react";
-import "./App.css";
+import React, { useState, useEffect } from 'react';
+
+import TopBar from './top-bar/topbar'
+import FeaturedImg from './featured-img/featured-img'
+import MainHeader from './main-header/main-header'
+
+import axios from 'axios'
 
 function App() {
+  const [image, setImage] = useState([])
+
+  useEffect(() => {
+    axios
+    .get('https://api.nasa.gov/planetary/apod?api_key=krgov0zYymJ4pGF1sVUvTq1L6sDrvLv5DIdd4AD3&date=2020-12-08')
+    .then(res => setImage(res.data))
+    .catch(error => console.log(error))
+  }, 
+  [])
+  console.log(image);
   return (
-    <div className="App">
-      <p>
-        Read through the instructions in the README.md file to build your NASA
-        app! Have fun <span role="img" aria-label='go!'>🚀</span>!
-      </p>
+    <div className='app-container'>
+    <TopBar />
+    <MainHeader image={image} />
+     <FeaturedImg image ={image}/>
     </div>
   );
 }
